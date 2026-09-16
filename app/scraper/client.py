@@ -16,5 +16,5 @@ class ScraperClient:
             except httpx.HTTPError:
                 if attempt == self.retries - 1:
                     raise
-                await.asyncio.sleep(2 ** attempt)  # Exponential backoff
+                await asyncio.sleep(2 ** attempt)
         raise RuntimeError("Failed to fetch URL after all retries")
