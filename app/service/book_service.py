@@ -1,4 +1,4 @@
-from sqlaclchemy import select
+from sqlalchemy import select
 
 from app.database import (
     BookDB,
@@ -23,7 +23,7 @@ def save_books(books: list[Book]) -> int:
                 title=book.title,
                 price=book.price,
                 availability=book.availability,
-                url=book.url
+                url=book.url,
                 rating=book.rating
             )
 

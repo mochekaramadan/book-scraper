@@ -2,14 +2,11 @@ import asyncio
 
 from app.scraper.client import ScraperClient
 from app.scraper.parser import parse_books
+from app.database.database import init_db
+from app.service.book_service import save_books
 
 URL = "https://books.toscrape.com/"
 semaphore = asyncio.Semaphore(5)
-
-async def main():
-
-    books = await scrape_pages(1, 5)
-    print(f"Found {len(books)} books")
 
 
 def get_page_url(page_number: int) -> str:
@@ -36,6 +33,15 @@ async def scrape_page(client: ScraperClient, page: int):
         html = await client.fetch(url)
         books = parse_books(html)
         return books
+
+async def main():
+    init_db()
+
+
+    books = await scrape_pages(1, 5)
+    print(f"Found {len(books)} books")
+    saved = save_books(books)
+    print(f"Saved {saved} books")
 
 if __name__ == "__main__":
     asyncio.run(main())

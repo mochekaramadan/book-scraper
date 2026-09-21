@@ -1,16 +1,16 @@
-from sqlalchemy import {
+from sqlalchemy import (
     create_engine,
     String,
     Float,
-    Integer
-}
+    Integer,
+)
 
-from sqlalchemy.orm import {
+from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
     mapped_column,
-    sessionmaker
-}
+    sessionmaker,
+)
 
 DATABASE_URL = "sqlite:///books.db"
 
@@ -24,10 +24,13 @@ class Book(Base):
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     price: Mapped[float] = mapped_column(Float, nullable=False)
     availability: Mapped[str] = mapped_column(String(255), nullable=False)
+    rating: Mapped[int] = mapped_column(Integer, nullable=False)
     url: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+
+BookDB = Book
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
 
 def init_db():
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(engine)
