@@ -41,7 +41,7 @@ def get_books(
         offset = (page - 1) * limit
         query = query.offset(offset).limit(limit)
         books = session.execute(query).scalars().all()
-        return books
+        return {"data": books}
     except Exception as e:
         return {"error": str(e)}
     finally:
